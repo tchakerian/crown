@@ -426,3 +426,6 @@ ecrire("confidentialite.html", page("", "Confidentialité, Crown", "Politique de
 # ---------- Icône ----------
 ecrire("assets/favicon.svg", '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 40 40"><rect width="40" height="40" rx="8" fill="#F20823"/><g transform="translate(4 6)" fill="none" stroke="#fff" stroke-width="2.4"><path d="M20 21.5 L4.2 21.5 L2 7.5 L12.5 14.5 L20 3 L27.5 14.5 L38 7.5 L35.8 21.5 Z" transform="scale(.8) translate(0 2)"/></g></svg>')
 print("site construit dans", SITE)
+
+# ---------- Grain photographique posé sur les scènes ----------
+ecrire("assets/grain.svg", '<svg xmlns="http://www.w3.org/2000/svg" width="240" height="240" viewBox="0 0 240 240"><filter id="g"><feTurbulence type="fractalNoise" baseFrequency=".85" numOctaves="2" stitchTiles="stitch"/><feColorMatrix type="saturate" values="0"/></filter><rect width="240" height="240" filter="url(#g)"/></svg>')
