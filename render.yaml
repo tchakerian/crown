@@ -2,7 +2,7 @@
 # Site de test : masqué aux moteurs de recherche (X-Robots-Tag et robots.txt).
 services:
   - type: web
-    name: crown-site
+    name: crown
     runtime: static
     buildCommand: ""
     staticPublishPath: .
