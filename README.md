@@ -1,5 +1,8 @@
-# Site Crown
+# Crown
 
-Site statique de Crown, publié sur Render (fichier `render.yaml`).
-Les pages sont générées par `outils/construire.py` dans le dossier de travail du site, puis copiées ici.
-Site officiel, servi sur crown.ooo (DNS chez OVH). Après un envoi : synchroniser le Blueprint puis « Deploy latest commit » sur Render.
+Site de Crown, en ligne sur https://crown.ooo (hébergé sur Render).
+
+- `site/` : les pages publiées.
+- `outils/construire.py` : génère les pages (`python3 outils/construire.py`).
+- `render.yaml` : réglages Render (site statique, en-têtes de sécurité, adresses courtes).
+- `CLAUDE.md` : les règles de la maison (design, textes, mise en ligne).

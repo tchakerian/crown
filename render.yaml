@@ -5,7 +5,7 @@ services:
     name: crown
     runtime: static
     buildCommand: ""
-    staticPublishPath: .
+    staticPublishPath: site
     pullRequestPreviewsEnabled: false
     headers:
       - path: /*
