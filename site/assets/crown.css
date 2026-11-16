@@ -224,6 +224,8 @@ p { margin: 0; }
 .visuel .couronne { position: absolute; left: 50%; top: 38%; transform: translate(-50%, -50%); width: clamp(96px, 26%, 150px); height: auto; color: var(--blanc); }
 .visuel-scene { background: #0A0F12; }
 .visuel-scene::after { content: ""; position: absolute; inset: 0; background: linear-gradient(0deg, rgba(8,12,14,.7) 0%, rgba(8,12,14,0) 30%); pointer-events: none; }
+.visuel-porte { margin-top: 56px; aspect-ratio: 4 / 3; }
+.visuel-porte::after { display: none; }
 .scene-cadre { position: absolute; inset: 0; width: 100%; height: 100%; }
 .visuel figcaption { z-index: 1; position: absolute; left: 28px; bottom: 24px; font-family: var(--marc); font-size: 14px; letter-spacing: .16em; color: var(--blanc); }
 .points strong { display: block; margin-bottom: 4px; font-weight: 600; color: var(--encre); }
@@ -380,11 +382,14 @@ p { margin: 0; }
 .lueur { animation: lueur 7s ease-in-out infinite alternate; }
 .derive { animation: derive 34s ease-in-out infinite alternate; }
 .derive2 { animation: derive 48s ease-in-out infinite alternate-reverse; }
+.faisceau { animation: faisceau 9s ease-in-out infinite; }
+.faisceau2 { animation: faisceau 9s ease-in-out infinite reverse; }
 .scintille { animation: brume 9s ease-in-out infinite alternate; }
 @keyframes tangue { 0% { transform: rotate(-1.2deg) translateY(-3px); } 100% { transform: rotate(1.4deg) translateY(4px); } }
 @keyframes vagues { from { transform: translateX(0); } to { transform: translateX(-240px); } }
 @keyframes nuages { from { transform: translateX(0); } to { transform: translateX(-120px); } }
 @keyframes brume { from { opacity: .55; } to { opacity: .95; } }
+@keyframes faisceau { 0%, 100% { opacity: .25; } 50% { opacity: 1; } }
 @keyframes lueur { from { opacity: .55; } to { opacity: .9; } }
 @keyframes derive { from { transform: translateX(-60px); } to { transform: translateX(60px); } }
 
@@ -463,7 +468,7 @@ p { margin: 0; }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .bateau, .vagues1, .vagues2, .nuages, .brume, .lueur, .derive, .derive2, .scintille { animation: none !important; }
+  .bateau, .vagues1, .vagues2, .nuages, .brume, .lueur, .derive, .derive2, .scintille, .faisceau, .faisceau2 { animation: none !important; }
   .voile-scene.scene { transition: none; }
   .onglet.actif .onglet-prog { animation: none !important; transform: scaleX(1); }
   .accueil .entete.colle { animation: none; }

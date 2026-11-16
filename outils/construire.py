@@ -299,7 +299,7 @@ apropos = f'''  <section class="intro apparait">
       <p class="grand">{ACCROCHE} {CITATION}</p>
       <p class="suite">Les fonds de Crown partagent une même ambition : reproduire, chacun dans son domaine, des modèles de prospérité. Quatre activités, chacune experte de son métier, une seule maison.</p>
     </div>
-    {visuel("")}
+    <figure class="visuel visuel-scene" aria-hidden="true">{scenes.svg("maison", "scene-cadre", scenes.CADRES["maison"], "xMidYMid slice")}<figcaption>{crown("mot")}</figcaption></figure>
   </section>
   <section class="presentation revele">
     <h2>Nos valeurs</h2>
@@ -324,6 +324,7 @@ contact = f'''  <section class="contact">
         <div><dt>Contact</dt><dd><a href="mailto:{COURRIEL}">{COURRIEL}</a></dd></div>
         <div><dt>Investissements</dt><dd><a href="mailto:{COURRIEL_INVEST}">{COURRIEL_INVEST}</a></dd></div>
       </dl>
+      <figure class="visuel visuel-scene visuel-porte" aria-hidden="true">{scenes.svg("contact", "scene-cadre", scenes.CADRES["contact"], "xMidYMid slice")}</figure>
     </div>
     <form class="formulaire" id="formulaire-contact" method="post" action="#" novalidate data-courriel="{COURRIEL}">
       <label>Prénom<input name="prenom" autocomplete="given-name" required></label>

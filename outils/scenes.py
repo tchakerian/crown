@@ -300,10 +300,143 @@ def voilier(p="v"):
       <g stroke="#E4ECEC" fill="none" stroke-linecap="round" opacity=".55"><path stroke-width="2" d="M1040 704 C980 708 900 712 820 716"/><path stroke-width="1.2" d="M1050 712 C960 722 880 730 760 736"/><path stroke-width="1" opacity=".6" d="M1360 696 C1390 700 1420 702 1440 702"/></g>'''
 
 
-SCENES = {"demeure": demeure, "stable": stable, "capital": capital, "asset-management": voilier}
-PREFIXES = {"demeure": "d", "stable": "s", "capital": "c", "asset-management": "v"}
+# ---------- La maison (À propos) : un phare sur sa pointe, à l'heure bleue ----------
+def phare(p="f"):
+    rnd = random.Random(17)
+    etoiles = ''.join(f'<circle cx="{rnd.uniform(0, 1440):.0f}" cy="{rnd.uniform(0, 380):.0f}" r="{rnd.choice([.5, .7, .9, 1.2])}" opacity="{rnd.uniform(.2, .7):.2f}"/>' for _ in range(70))
+    reflet = ''.join(f'<rect x="{1240 - w / 2 + rnd.gauss(0, 6 + k * .6):.0f}" y="{652 + k * 7}" width="{w:.0f}" height="2" rx="1" opacity="{max(.08, .75 - k * .022):.2f}"/>'
+                     for k, w in enumerate([rnd.uniform(8, 40) * (1 + i / 30) for i in range(34)]))
+    pierres = ''.join(f'<rect x="{1222 + (k % 2) * 2}" y="{352 + k * 28}" width="{36 + k * 1.2:.1f}" height="1" opacity=".18"/>' for k in range(9))
+    rampe = ''.join(f'<rect x="{x}" y="318" width="1.4" height="12"/>' for x in range(1212, 1270, 5))
+    return f'''<defs>
+        <linearGradient id="{p}-ciel" x1="0" y1="0" x2="0" y2="650" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#070B10"/><stop offset=".45" stop-color="#16222D"/><stop offset=".8" stop-color="#3C4D59"/><stop offset=".95" stop-color="#7C7A78"/><stop offset="1" stop-color="#9A8A7C"/></linearGradient>
+        <radialGradient id="{p}-lum" cx="420" cy="640" r="700" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#E6B58C" stop-opacity=".38"/><stop offset=".4" stop-color="#9C8A80" stop-opacity=".12"/><stop offset="1" stop-color="#9C8A80" stop-opacity="0"/></radialGradient>
+        <linearGradient id="{p}-mer" x1="0" y1="646" x2="0" y2="1024" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#4B5E68"/><stop offset=".15" stop-color="#2A3A43"/><stop offset=".5" stop-color="#131D23"/><stop offset="1" stop-color="#06090C"/></linearGradient>
+        <linearGradient id="{p}-tour" x1="1212" y1="0" x2="1272" y2="0" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#E9E6DE"/><stop offset=".45" stop-color="#CFCBC2"/><stop offset="1" stop-color="#7E7D7A"/></linearGradient>
+        <linearGradient id="{p}-faisceau" x1="1240" y1="0" x2="-100" y2="0" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#FFE9C4" stop-opacity=".55"/><stop offset=".5" stop-color="#F6D9AE" stop-opacity=".12"/><stop offset="1" stop-color="#F6D9AE" stop-opacity="0"/></linearGradient>
+        <linearGradient id="{p}-faisceau2" x1="1240" y1="0" x2="1600" y2="0" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#FFE9C4" stop-opacity=".4"/><stop offset="1" stop-color="#F6D9AE" stop-opacity="0"/></linearGradient>
+        <radialGradient id="{p}-halo" cx="1240" cy="306" r="150" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#FFF1D2" stop-opacity=".9"/><stop offset=".2" stop-color="#FAD9A2" stop-opacity=".35"/><stop offset="1" stop-color="#FAD9A2" stop-opacity="0"/></radialGradient>
+        <linearGradient id="{p}-roche" x1="0" y1="560" x2="0" y2="720" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#232C31"/><stop offset="1" stop-color="#0A0F12"/></linearGradient>
+        {_flou(p, 2)}{_flou(p, 6)}{_flou(p, 12)}{_flou(p, 22)}
+        {_bord(p, "roche", ".02", 26, 14)}{_bord(p, "herbe", ".09", 7, 15)}
+      </defs>
+      <rect width="1440" height="660" fill="url(#{p}-ciel)"/>
+      <circle class="brume" cx="420" cy="640" r="700" fill="url(#{p}-lum)"/>
+      <g fill="#E8EEF2" class="scintille">{etoiles}</g>
+      <g class="nuages" filter="url(#{p}-flou12)">
+        <ellipse cx="360" cy="150" rx="600" ry="56" fill="#05080B" opacity=".65"/><ellipse cx="1120" cy="210" rx="520" ry="40" fill="#0C1319" opacity=".6"/>
+        <ellipse cx="640" cy="470" rx="520" ry="10" fill="#A58C7E" opacity=".3"/><ellipse cx="200" cy="540" rx="300" ry="7" fill="#8C7D76" opacity=".3"/>
+      </g>
+      <g class="faisceau"><path d="M1240 300 L-120 170 L-120 420 L1240 312 Z" fill="url(#{p}-faisceau)" filter="url(#{p}-flou6)"/></g>
+      <g class="faisceau2"><path d="M1240 302 L1600 250 L1600 360 L1240 310 Z" fill="url(#{p}-faisceau2)" filter="url(#{p}-flou6)"/></g>
+      <path filter="url(#{p}-roche)" fill="#3E4950" opacity=".7" d="M-40 650 C60 640 140 630 230 638 C300 644 360 650 420 650 Z"/>
+      <rect y="646" width="1440" height="378" fill="url(#{p}-mer)"/>
+      <path fill="#B9A595" opacity=".16" d="M80 648 H760 L900 840 H-40 Z" filter="url(#{p}-flou12)"/>
+      <g class="vagues2" stroke="#93A6AD" fill="none" stroke-linecap="round" opacity=".3"><path stroke-width="1" d="{_vague(672, 4)}"/><path stroke-width="1.1" d="{_vague(700, 5)}"/></g>
+      <g class="vagues1" stroke="#7A8F96" fill="none" stroke-linecap="round" opacity=".25"><path stroke-width="1.4" d="{_vague(756, 8)}"/><path stroke-width="1.8" d="{_vague(842, 11)}"/><path stroke-width="2.2" d="{_vague(950, 14)}"/></g>
+      <path filter="url(#{p}-roche)" fill="url(#{p}-roche)" d="M1010 668 C1040 650 1070 628 1100 612 C1130 598 1160 592 1200 588 C1260 584 1330 586 1390 590 L1480 594 L1480 690 C1380 686 1260 690 1150 688 C1090 687 1040 684 1000 680 Z"/>
+      <g filter="url(#{p}-roche)" fill="none" stroke="#5A666C" stroke-linecap="round" opacity=".55"><path stroke-width="3" d="M1040 650 C1060 636 1080 624 1104 612"/><path stroke-width="2" d="M1100 640 C1120 628 1140 620 1168 614"/><path stroke-width="2" d="M1180 660 C1210 648 1240 642 1280 640"/></g>
+      <path filter="url(#{p}-roche)" fill="#080C0E" d="M990 684 C1060 676 1160 674 1260 676 C1340 678 1400 676 1480 672 L1480 704 C1380 708 1240 708 1120 706 C1060 705 1020 700 990 696 Z"/>
+      <g stroke="#DCE4E4" fill="none" stroke-linecap="round" opacity=".55"><path stroke-width="2" d="M990 690 C1030 698 1080 702 1140 700"/><path stroke-width="1.4" d="M1160 708 C1220 712 1300 712 1380 708"/><path stroke-width="1.2" opacity=".6" d="M960 682 C975 686 990 688 1004 686"/></g>
+      <g class="lueur" fill="#FCD9A0" transform="translate(0 56)">{reflet}</g>
+      <path filter="url(#{p}-herbe)" fill="#11181B" d="M1080 600 C1140 590 1200 588 1260 588 C1320 588 1380 592 1440 596 L1440 612 L1080 612 Z"/>
+      <rect x="1146" y="560" width="62" height="30" fill="#B9B5AC"/><path d="M1140 562 L1177 544 L1214 562 Z" fill="#3A3735"/>
+      <rect x="1158" y="570" width="9" height="12" fill="#F7C987"/><rect x="1186" y="570" width="9" height="12" fill="#F7C987"/>
+      <g class="lueur" fill="#F6B66C" filter="url(#{p}-flou6)" opacity=".7"><rect x="1158" y="570" width="9" height="12"/><rect x="1186" y="570" width="9" height="12"/></g>
+      <path fill="url(#{p}-tour)" d="M1212 590 L1222 334 L1258 334 L1268 590 Z"/>
+      <g fill="#5E5D5A">{pierres}</g>
+      <rect x="1236" y="420" width="6" height="12" fill="#2A2D2F"/><rect x="1238" y="500" width="6" height="12" fill="#2A2D2F"/>
+      <rect x="1206" y="330" width="68" height="5" fill="#2B2E30"/><g fill="#2B2E30">{rampe}</g><rect x="1210" y="317" width="60" height="2" fill="#2B2E30"/>
+      <rect x="1224" y="292" width="32" height="26" fill="#FFE7BA"/>
+      <path d="M1224 292 H1256 M1240 292 V318 M1224 305 H1256" stroke="#7A6A55" stroke-width="1" opacity=".6"/>
+      <path d="M1220 292 Q1240 266 1260 292 Z" fill="#1D2022"/><rect x="1239" y="258" width="2" height="12" fill="#1D2022"/>
+      <circle class="lueur" cx="1240" cy="306" r="150" fill="url(#{p}-halo)"/>
+      <circle cx="1240" cy="305" r="9" fill="#FFFFFF" filter="url(#{p}-flou2)"/>'''
+
+
+# ---------- Contact : une porte d'hôtel particulier, entrouverte, à la nuit tombée ----------
+def _lanterne(x, y, p):
+    return f'''<path d="M{x} {y - 66} V{y - 46} M{x - 26} {y - 66} H{x}" stroke="#1A1714" stroke-width="3" fill="none"/>
+      <circle class="lueur" cx="{x}" cy="{y}" r="170" fill="url(#{p}-halo{x})"/>
+      <path d="M{x - 14} {y - 46} L{x + 14} {y - 46} L{x + 18} {y - 38} L{x + 15} {y + 22} L{x - 15} {y + 22} L{x - 18} {y - 38} Z" fill="#14110F"/>
+      <path d="M{x - 11} {y - 34} L{x + 11} {y - 34} L{x + 10} {y + 16} L{x - 10} {y + 16} Z" fill="url(#{p}-flamme)"/>
+      <path d="M{x} {y - 34} V{y + 16}" stroke="#3A2A1A" stroke-width="1.2" opacity=".7"/>
+      <path d="M{x - 18} {y + 22} H{x + 18} L{x + 8} {y + 34} H{x - 8} Z" fill="#14110F"/>
+      <circle cx="{x}" cy="{y - 4}" r="9" fill="#FFF6E0" filter="url(#{p}-flou4)"/>'''
+
+
+def _panneaux(x, l):
+    """Deux panneaux moulurés sur un vantail de largeur l."""
+    out = ''
+    for y, h in ((372, 200), (598, 132)):
+        out += (f'<rect x="{x + 16}" y="{y}" width="{l - 32}" height="{h}" fill="none" stroke="#3E4943" stroke-width="2"/>'
+                f'<rect x="{x + 24}" y="{y + 8}" width="{l - 48}" height="{h - 16}" fill="#1B2420"/>'
+                f'<path d="M{x + 24} {y + h - 8} V{y + 8} H{x + l - 24}" stroke="#53605A" stroke-width="1.4" fill="none" opacity=".8"/>')
+    return out
+
+
+def porte(p="p"):
+    joints = ''.join(f'<path d="M0 {y} H1200"/>' for y in range(60, 900, 64))
+    joints += ''.join(f'<path d="M{x + (k % 2) * 60} {60 + 64 * k} V{124 + 64 * k}"/>' for k in range(13) for x in range(-60, 1260, 120))
+    pave = ''.join(f'<path d="M{x} {y} q30 -6 60 0"/>' for y in range(872, 900, 12) for x in range(-30 + (y % 24), 1230, 64))
+    rayons = ''.join(f'<path d="M600 330 L{600 + 140 * math.cos(a):.0f} {330 - 140 * math.sin(a):.0f}"/>' for a in [math.pi * k / 8 for k in range(1, 8)])
+    return f'''<defs>
+        <linearGradient id="{p}-mur" x1="0" y1="0" x2="0" y2="900" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#2A2826"/><stop offset=".5" stop-color="#55504A"/><stop offset="1" stop-color="#2F2C29"/></linearGradient>
+        <radialGradient id="{p}-ombre" cx="600" cy="520" r="760" gradientUnits="userSpaceOnUse"><stop offset=".35" stop-color="#000" stop-opacity="0"/><stop offset="1" stop-color="#000" stop-opacity=".7"/></radialGradient>
+        {''.join(f'<radialGradient id="{p}-halo{x}" cx="{x}" cy="420" r="170" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#F7C27C" stop-opacity=".55"/><stop offset=".35" stop-color="#E9A35E" stop-opacity=".18"/><stop offset="1" stop-color="#E9A35E" stop-opacity="0"/></radialGradient>' for x in (330, 870))}
+        <linearGradient id="{p}-flamme" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#FFE9BE"/><stop offset="1" stop-color="#F3A453"/></linearGradient>
+        <linearGradient id="{p}-pierre" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#A8A092"/><stop offset=".5" stop-color="#C9C0B0"/><stop offset="1" stop-color="#8E8578"/></linearGradient>
+        <linearGradient id="{p}-dedans" x1="0" y1="340" x2="0" y2="760" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#FFE2AE"/><stop offset=".6" stop-color="#F6BA70"/><stop offset="1" stop-color="#D8873E"/></linearGradient>
+        <linearGradient id="{p}-bois" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#18201C"/><stop offset="1" stop-color="#222C27"/></linearGradient>
+        <linearGradient id="{p}-marche" x1="0" y1="760" x2="0" y2="880" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#9C9384"/><stop offset="1" stop-color="#3A3631"/></linearGradient>
+        <linearGradient id="{p}-coulee" x1="0" y1="760" x2="0" y2="900" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#FFD394" stop-opacity=".6"/><stop offset="1" stop-color="#FFD394" stop-opacity="0"/></linearGradient>
+        <linearGradient id="{p}-laiton" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#E9C987"/><stop offset="1" stop-color="#8A6A36"/></linearGradient>
+        {_flou(p, 2)}{_flou(p, 4)}{_flou(p, 10)}{_flou(p, 24)}
+        {_bord(p, "buis", ".11", 9, 19)}
+      </defs>
+      <rect width="1200" height="900" fill="url(#{p}-mur)"/>
+      <g stroke="#1E1C1A" stroke-width="2" opacity=".55" fill="none">{joints}</g>
+      <g stroke="#7A7268" stroke-width="1" opacity=".18" fill="none" transform="translate(0 2)">{joints}</g>
+      <rect x="400" y="160" width="400" height="610" fill="url(#{p}-pierre)" opacity=".9"/>
+      <path d="M418 770 V330 A182 182 0 0 1 782 330 V770 Z" fill="#6E675D"/>
+      <path d="M440 770 V330 A160 160 0 0 1 760 330 V770 Z" fill="#111614"/>
+      <path d="M582 150 L618 150 L610 196 L590 196 Z" fill="#D6CDBD"/>
+      <path d="M452 330 A148 148 0 0 1 748 330 Z" fill="url(#{p}-dedans)" opacity=".92"/>
+      <g stroke="#2A2620" stroke-width="3" fill="none">{rayons}<path d="M452 330 A148 148 0 0 1 748 330"/><path d="M540 330 A60 60 0 0 1 660 330"/></g>
+      <rect x="440" y="330" width="320" height="10" fill="#2A2620"/>
+      <rect x="600" y="340" width="70" height="430" fill="url(#{p}-dedans)"/>
+      <path d="M612 340 L640 340 L640 770 L612 770 Z" fill="#FFF0D0" opacity=".5" filter="url(#{p}-flou10)"/>
+      <rect x="442" y="340" width="158" height="430" fill="url(#{p}-bois)"/>
+      {_panneaux(442, 158)}
+      <path d="M670 340 L758 330 L758 780 L670 770 Z" fill="#1A221E"/>
+      <path d="M680 358 L748 352 L748 560 L680 562 Z M680 590 L748 590 L748 744 L680 744 Z" fill="none" stroke="#3A4540" stroke-width="2"/>
+      <path d="M670 340 L676 340 L676 770 L670 770 Z" fill="#FFCF8C" opacity=".7"/>
+      <circle cx="584" cy="560" r="6" fill="url(#{p}-laiton)"/><circle cx="690" cy="560" r="5" fill="url(#{p}-laiton)"/>
+      <rect x="826" y="470" width="58" height="44" rx="2" fill="url(#{p}-laiton)"/>
+      <g transform="translate(835 478) scale(1)"><path d="M20 21.5 L4.2 21.5 L2 7.5 L12.5 14.5 L20 3 L27.5 14.5 L38 7.5 L35.8 21.5 Z" fill="none" stroke="#4E3B1E" stroke-width="1.6"/><circle cx="12" cy="18.2" r="1.3" fill="#4E3B1E"/><circle cx="20" cy="18.2" r="1.3" fill="#4E3B1E"/><circle cx="28" cy="18.2" r="1.3" fill="#4E3B1E"/><path d="M4.6 25.2 L35.4 25.2" stroke="#4E3B1E" stroke-width="1.6"/></g>
+      {_lanterne(330, 420, p)}{_lanterne(870, 420, p)}
+      <path d="M380 770 H820 L840 800 H360 Z" fill="url(#{p}-marche)"/>
+      <path d="M350 800 H850 L874 834 H326 Z" fill="url(#{p}-marche)" opacity=".92"/>
+      <path d="M318 834 H882 L910 870 H290 Z" fill="url(#{p}-marche)" opacity=".85"/>
+      <g fill="#E4D8C2" opacity=".55"><rect x="380" y="770" width="440" height="2"/><rect x="350" y="800" width="500" height="2"/><rect x="318" y="834" width="564" height="2"/></g>
+      <path d="M600 770 L670 770 L790 900 L520 900 Z" fill="url(#{p}-coulee)" filter="url(#{p}-flou10)"/>
+      <rect y="870" width="1200" height="30" fill="#141210"/>
+      <g stroke="#3A342E" stroke-width="1.2" fill="none" opacity=".7">{pave}</g>
+      <g>
+        <path d="M232 770 L328 770 L318 870 L242 870 Z" fill="#2A2724"/><rect x="226" y="762" width="108" height="10" fill="#3C3732"/>
+        <circle cx="280" cy="704" r="66" fill="#141A14" filter="url(#{p}-buis)"/>
+        <path d="M232 690 A60 60 0 0 1 300 640" stroke="#C99A5E" stroke-width="3" fill="none" opacity=".4" filter="url(#{p}-flou2)"/>
+        <path d="M872 770 L968 770 L958 870 L882 870 Z" fill="#2A2724"/><rect x="866" y="762" width="108" height="10" fill="#3C3732"/>
+        <circle cx="920" cy="704" r="66" fill="#141A14" filter="url(#{p}-buis)"/>
+        <path d="M968 690 A60 60 0 0 0 900 640" stroke="#C99A5E" stroke-width="3" fill="none" opacity=".4" filter="url(#{p}-flou2)"/>
+      </g>
+      <rect width="1200" height="900" fill="url(#{p}-ombre)"/>'''
+
+
+SCENES = {"demeure": demeure, "stable": stable, "capital": capital, "asset-management": voilier, "maison": phare, "contact": porte}
+PREFIXES = {"demeure": "d", "stable": "s", "capital": "c", "asset-management": "v", "maison": "f", "contact": "p"}
 # Cadrage 4/5 des pages d'activité, serré sur le sujet (x, y, largeur, hauteur)
-CADRES = {"demeure": "860 250 580 725", "stable": "800 230 600 750", "capital": "760 200 680 850", "asset-management": "820 100 620 775"}
+CADRES = {"demeure": "860 250 580 725", "stable": "800 230 600 750", "capital": "760 200 680 850", "asset-management": "820 100 620 775", "maison": "700 120 720 900", "contact": "0 0 1200 900"}
 
 
 def svg(activite, cls, cadre="0 0 1440 1024", ajuste="xMaxYMid slice"):
