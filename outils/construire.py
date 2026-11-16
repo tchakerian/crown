@@ -47,9 +47,10 @@ def points(liste):
     return '<ol class="points">' + ''.join(f'<li><span>0{k + 1}</span><strong>{a}</strong>{b}</li>' for k, (a, b) in enumerate(liste)) + '</ol>'
 
 
-def visuel_activite(fichier, nom):
-    return (f'<figure class="visuel visuel-scene" aria-hidden="true">{scenes.svg(fichier, "scene-cadre", scenes.CADRES[fichier], "xMidYMid slice")}'
-            f'<figcaption>{crown("mot")} {nom.upper()}</figcaption></figure>')
+def ecran_visuel(cle, legende=""):
+    """Image pleine hauteur d'un écran partagé, collée au bord de la fenêtre."""
+    leg = f'<figcaption>{legende}</figcaption>' if legende else ''
+    return (f'<figure class="ecran-visuel visuel-scene" aria-hidden="true">{scenes.svg(cle, "scene-cadre", scenes.CADRES[cle], "xMidYMid slice")}{leg}</figure>')
 
 
 def visuel(nom):
@@ -268,15 +269,17 @@ ecrire("index.html", page("index.html", "Crown, maison d'investissement", ACCROC
 
 # ---------- Pages des activités ----------
 for i, e in enumerate(ENT):
-    corps = f'''  <nav class="fil" aria-label="Fil d'Ariane"><a href="../index.html">Accueil</a> / <a href="../index.html#activites">Activités</a> / <span aria-current="page">Crown {e[1]}</span></nav>
-  <section class="activite-hero">
-    <div class="apparait">
-      <span class="numero">{NUM[i]}</span>
-      <h1 class="activite-titre"><span class="titre-crown">CR<span class="o">O</span>WN</span><span class="activite-nom">{e[1]}</span></h1>
-      <p class="activite-phrase">{e[2]}</p>
-      <a class="bouton" href="../contact.html?activite={e[0]}">Demander une introduction</a>
+    corps = f'''  <section class="ecran">
+    <div class="ecran-texte apparait">
+      <nav class="fil" aria-label="Fil d'Ariane"><a href="../index.html">Accueil</a> / <a href="../index.html#activites">Activités</a> / <span aria-current="page">Crown {e[1]}</span></nav>
+      <div class="ecran-corps">
+        <span class="numero">{NUM[i]}</span>
+        <h1 class="activite-titre"><span class="titre-crown">CR<span class="o">O</span>WN</span><span class="activite-nom">{e[1]}</span></h1>
+        <p class="activite-phrase">{e[2]}</p>
+        <a class="bouton" href="../contact.html?activite={e[0]}">Demander une introduction</a>
+      </div>
     </div>
-    {visuel_activite(e[0], e[1])}
+    {ecran_visuel(e[0], f'<span class="legende-num">{NUM[i]}</span>{crown("mot")} {e[1].upper()}')}
   </section>
   <section class="presentation revele">
     <h2>Crown {e[1]}</h2>
@@ -290,16 +293,16 @@ for i, e in enumerate(ENT):
     ecrire(f"activites/{e[0]}.html", page("", f"Crown {e[1]}", e[2], "Activités", corps, "../"))
 
 # ---------- À propos ----------
-apropos = f'''  <section class="intro apparait">
-    <p class="surtitre">À propos</p>
-    <h1>Crown investit dans ce qui change une vie.</h1>
-  </section>
-  <section class="maison revele">
-    <div>
-      <p class="grand">{ACCROCHE} {CITATION}</p>
-      <p class="suite">Les fonds de Crown partagent une même ambition : reproduire, chacun dans son domaine, des modèles de prospérité. Quatre activités, chacune experte de son métier, une seule maison.</p>
+apropos = f'''  <section class="ecran">
+    <div class="ecran-texte apparait">
+      <div class="ecran-corps">
+        <p class="surtitre">À propos</p>
+        <h1 class="ecran-titre">Crown investit dans ce qui change une vie.</h1>
+        <p class="grand">{ACCROCHE} {CITATION}</p>
+        <p class="suite">Les fonds de Crown partagent une même ambition : reproduire, chacun dans son domaine, des modèles de prospérité. Quatre activités, chacune experte de son métier, une seule maison.</p>
+      </div>
     </div>
-    <figure class="visuel visuel-scene" aria-hidden="true">{scenes.svg("maison", "scene-cadre", scenes.CADRES["maison"], "xMidYMid slice")}<figcaption>{crown("mot")}</figcaption></figure>
+    {ecran_visuel("maison", crown("mot"))}
   </section>
   <section class="presentation revele">
     <h2>Nos valeurs</h2>
@@ -314,29 +317,31 @@ ecrire("a-propos.html", page("", "À propos de Crown", ACCROCHE, "À propos", ap
 
 # ---------- Contact ----------
 opts = ''.join(f'<option value="{e[0]}">Crown {e[1]}</option>' for e in ENT)
-contact = f'''  <section class="contact">
-    <div class="apparait">
-      <p class="surtitre">Contact</p>
-      <h1>Demander une introduction</h1>
-      <p class="accroche">Dites-nous qui vous êtes et ce qui vous amène. Nous revenons vers vous personnellement.</p>
-      <dl class="coordonnees">
-        <div><dt>Adresse</dt><dd>{ADRESSE}</dd></div>
-        <div><dt>Contact</dt><dd><a href="mailto:{COURRIEL}">{COURRIEL}</a></dd></div>
-        <div><dt>Investissements</dt><dd><a href="mailto:{COURRIEL_INVEST}">{COURRIEL_INVEST}</a></dd></div>
-      </dl>
-      <figure class="visuel visuel-scene visuel-porte" aria-hidden="true">{scenes.svg("contact", "scene-cadre", scenes.CADRES["contact"], "xMidYMid slice")}</figure>
+contact = f'''  <section class="ecran ecran-inverse">
+    {ecran_visuel("contact")}
+    <div class="ecran-texte apparait">
+      <div class="ecran-corps">
+        <p class="surtitre">Contact</p>
+        <h1 class="ecran-titre">Demander une introduction</h1>
+        <p class="accroche">Dites-nous qui vous êtes et ce qui vous amène. Nous revenons vers vous personnellement.</p>
+        <form class="formulaire" id="formulaire-contact" method="post" action="#" novalidate data-courriel="{COURRIEL}">
+          <label>Prénom<input name="prenom" autocomplete="given-name" required></label>
+          <label>Nom<input name="nom" autocomplete="family-name" required></label>
+          <label>E-mail<input name="email" type="email" autocomplete="email" required></label>
+          <label>Téléphone<input name="telephone" type="tel" autocomplete="tel"></label>
+          <label class="large">Objet<select name="activite" id="activite"><option value="">Choisir</option>{opts}<option value="compte">Ouvrir un compte</option></select></label>
+          <label class="large">Message<textarea name="message" rows="4" required></textarea></label>
+          <label class="case large"><input type="checkbox" name="accord" required> J'accepte que Crown utilise ces informations pour me répondre.</label>
+          <p class="large message-formulaire" role="status" aria-live="polite"></p>
+          <div class="large"><button class="bouton bouton-plein" type="submit">Envoyer la demande</button><p class="note">Votre messagerie s'ouvre avec la demande prête à partir. Vous pouvez aussi écrire directement à <a href="mailto:{COURRIEL}">{COURRIEL}</a>.</p></div>
+        </form>
+        <dl class="coordonnees">
+          <div><dt>Adresse</dt><dd>{ADRESSE}</dd></div>
+          <div><dt>Contact</dt><dd><a href="mailto:{COURRIEL}">{COURRIEL}</a></dd></div>
+          <div><dt>Investissements</dt><dd><a href="mailto:{COURRIEL_INVEST}">{COURRIEL_INVEST}</a></dd></div>
+        </dl>
+      </div>
     </div>
-    <form class="formulaire" id="formulaire-contact" method="post" action="#" novalidate data-courriel="{COURRIEL}">
-      <label>Prénom<input name="prenom" autocomplete="given-name" required></label>
-      <label>Nom<input name="nom" autocomplete="family-name" required></label>
-      <label>E-mail<input name="email" type="email" autocomplete="email" required></label>
-      <label>Téléphone<input name="telephone" type="tel" autocomplete="tel"></label>
-      <label class="large">Objet<select name="activite" id="activite"><option value="">Choisir</option>{opts}<option value="compte">Ouvrir un compte</option></select></label>
-      <label class="large">Message<textarea name="message" rows="4" required></textarea></label>
-      <label class="case large"><input type="checkbox" name="accord" required> J'accepte que Crown utilise ces informations pour me répondre.</label>
-      <p class="large message-formulaire" role="status" aria-live="polite"></p>
-      <div class="large"><button class="bouton bouton-plein" type="submit">Envoyer la demande</button><p class="note">Votre messagerie s'ouvre avec la demande prête à partir. Vous pouvez aussi écrire directement à <a href="mailto:{COURRIEL}">{COURRIEL}</a>.</p></div>
-    </form>
   </section>'''
 ecrire("contact.html", page("", "Contact, Crown", "Demander une introduction à Crown.", "Contact", contact))
 

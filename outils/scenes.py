@@ -436,7 +436,7 @@ def porte(p="p"):
 SCENES = {"demeure": demeure, "stable": stable, "capital": capital, "asset-management": voilier, "maison": phare, "contact": porte}
 PREFIXES = {"demeure": "d", "stable": "s", "capital": "c", "asset-management": "v", "maison": "f", "contact": "p"}
 # Cadrage 4/5 des pages d'activité, serré sur le sujet (x, y, largeur, hauteur)
-CADRES = {"demeure": "860 250 580 725", "stable": "800 230 600 750", "capital": "760 200 680 850", "asset-management": "820 100 620 775", "maison": "700 120 720 900", "contact": "0 0 1200 900"}
+CADRES = {"demeure": "800 220 640 780", "stable": "780 220 640 780", "capital": "720 180 720 860", "asset-management": "780 80 660 800", "maison": "700 120 720 900", "contact": "0 0 1200 900"}
 
 
 def svg(activite, cls, cadre="0 0 1440 1024", ajuste="xMaxYMid slice"):

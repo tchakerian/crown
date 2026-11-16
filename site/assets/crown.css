@@ -224,8 +224,6 @@ p { margin: 0; }
 .visuel .couronne { position: absolute; left: 50%; top: 38%; transform: translate(-50%, -50%); width: clamp(96px, 26%, 150px); height: auto; color: var(--blanc); }
 .visuel-scene { background: #0A0F12; }
 .visuel-scene::after { content: ""; position: absolute; inset: 0; background: linear-gradient(0deg, rgba(8,12,14,.7) 0%, rgba(8,12,14,0) 30%); pointer-events: none; }
-.visuel-porte { margin-top: 56px; aspect-ratio: 4 / 3; }
-.visuel-porte::after { display: none; }
 .scene-cadre { position: absolute; inset: 0; width: 100%; height: 100%; }
 .visuel figcaption { z-index: 1; position: absolute; left: 28px; bottom: 24px; font-family: var(--marc); font-size: 14px; letter-spacing: .16em; color: var(--blanc); }
 .points strong { display: block; margin-bottom: 4px; font-weight: 600; color: var(--encre); }
@@ -233,6 +231,37 @@ p { margin: 0; }
 .note { margin-top: 16px; font-size: 13px; color: var(--gris); }
 .note a { color: var(--encre); }
 .coordonnees a { color: var(--encre); }
+
+/* Écrans partagés : le texte d'un côté, l'image pleine hauteur collée au bord de l'autre */
+.ecran { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 48vw); min-height: calc(100svh - 120px); }
+.ecran-inverse { grid-template-columns: minmax(0, 42vw) minmax(0, 1fr); }
+.ecran-texte { display: flex; flex-direction: column; padding: 44px clamp(40px, 6vw, 112px) 88px max(var(--marge), calc((100vw - var(--max)) / 2 + var(--marge))); }
+.ecran-inverse .ecran-texte { padding: 72px max(var(--marge), calc((100vw - var(--max)) / 2 + var(--marge))) 112px clamp(40px, 6vw, 112px); }
+.ecran .fil { padding: 0; margin: 0; max-width: none; }
+.ecran-corps { margin: auto 0; padding-top: 48px; max-width: 560px; }
+.ecran-inverse .ecran-corps { margin: 0; padding-top: 0; max-width: 680px; }
+.ecran-titre { margin-top: 28px; font-family: var(--marc); font-size: clamp(38px, 3.8vw, 60px); line-height: 1.1; text-wrap: balance; }
+.ecran .accroche { margin-top: 28px; }
+.ecran .grand { margin-top: 40px; font-size: 19px; line-height: 1.7; color: #333; }
+.ecran .suite { margin-top: 24px; font-size: 16px; line-height: 1.7; color: var(--gris-texte); }
+.ecran .bouton { margin-top: 44px; }
+.ecran .formulaire { margin-top: 56px; }
+.ecran .coordonnees { margin-top: 80px; }
+.ecran-visuel { position: relative; margin: 0; min-height: 600px; overflow: hidden; }
+.ecran-inverse .ecran-visuel { position: sticky; top: 80px; align-self: start; height: calc(100svh - 80px); min-height: 560px; }
+.ecran-visuel .scene-cadre { transform-origin: 62% 58%; animation: approche 24s cubic-bezier(.2, .6, .2, 1) both; }
+@keyframes approche { from { transform: scale(1.09); } to { transform: none; } }
+.ecran-visuel figcaption { position: absolute; z-index: 2; left: clamp(24px, 3vw, 44px); bottom: clamp(22px, 3vw, 40px); display: flex; align-items: center; gap: 14px; font-family: var(--marc); font-size: 14px; letter-spacing: .16em; color: var(--blanc); }
+.legende-num { padding-right: 14px; border-right: 1px solid rgba(255,255,255,.5); }
+@media (max-width: 900px) {
+  .ecran, .ecran-inverse { grid-template-columns: 1fr; min-height: 0; }
+  .ecran-visuel, .ecran-inverse .ecran-visuel { order: -1; position: relative; top: 0; height: 60svh; min-height: 320px; max-height: 560px; }
+  .ecran-inverse .ecran-visuel { height: 44svh; }
+  .ecran-texte, .ecran-inverse .ecran-texte { padding: 28px var(--marge) 64px; }
+  .ecran-corps { padding-top: 28px; }
+  .ecran .coordonnees { margin-top: 56px; }
+}
+@media (prefers-reduced-motion: reduce) { .ecran-visuel .scene-cadre { animation: none; } }
 
 /* Pages légales */
 .texte-legal { max-width: 820px; margin: 0 auto 0 0; padding: 56px var(--marge) 140px; }

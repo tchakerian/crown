@@ -10,7 +10,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Marcellus&family=Manrope:wght@200;300;400;500;600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/crown.css?v=0107f9eb82">
+<link rel="stylesheet" href="assets/crown.css?v=fc77b540ca">
 <script src="assets/crown.js?v=f59dc21359" defer></script>
 </head>
 <body>
@@ -28,17 +28,8 @@
   </nav>
 </header>
 <main id="contenu">
-  <section class="contact">
-    <div class="apparait">
-      <p class="surtitre">Contact</p>
-      <h1>Demander une introduction</h1>
-      <p class="accroche">Dites-nous qui vous êtes et ce qui vous amène. Nous revenons vers vous personnellement.</p>
-      <dl class="coordonnees">
-        <div><dt>Adresse</dt><dd>56 rue Saint-Jean-du-Désert, 13012 Marseille, France</dd></div>
-        <div><dt>Contact</dt><dd><a href="mailto:contact@crown.ooo">contact@crown.ooo</a></dd></div>
-        <div><dt>Investissements</dt><dd><a href="mailto:invest@crown.ooo">invest@crown.ooo</a></dd></div>
-      </dl>
-      <figure class="visuel visuel-scene visuel-porte" aria-hidden="true"><svg class="scene-cadre" viewBox="0 0 1200 900" preserveAspectRatio="xMidYMid slice" aria-hidden="true" focusable="false">
+  <section class="ecran ecran-inverse">
+    <figure class="ecran-visuel visuel-scene" aria-hidden="true"><svg class="scene-cadre" viewBox="0 0 1200 900" preserveAspectRatio="xMidYMid slice" aria-hidden="true" focusable="false">
       <defs>
         <linearGradient id="p-mur" x1="0" y1="0" x2="0" y2="900" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#2A2826"/><stop offset=".5" stop-color="#55504A"/><stop offset="1" stop-color="#2F2C29"/></linearGradient>
         <radialGradient id="p-ombre" cx="600" cy="520" r="760" gradientUnits="userSpaceOnUse"><stop offset=".35" stop-color="#000" stop-opacity="0"/><stop offset="1" stop-color="#000" stop-opacity=".7"/></radialGradient>
@@ -103,18 +94,29 @@
       </g>
       <rect width="1200" height="900" fill="url(#p-ombre)"/>
     </svg></figure>
+    <div class="ecran-texte apparait">
+      <div class="ecran-corps">
+        <p class="surtitre">Contact</p>
+        <h1 class="ecran-titre">Demander une introduction</h1>
+        <p class="accroche">Dites-nous qui vous êtes et ce qui vous amène. Nous revenons vers vous personnellement.</p>
+        <form class="formulaire" id="formulaire-contact" method="post" action="#" novalidate data-courriel="contact@crown.ooo">
+          <label>Prénom<input name="prenom" autocomplete="given-name" required></label>
+          <label>Nom<input name="nom" autocomplete="family-name" required></label>
+          <label>E-mail<input name="email" type="email" autocomplete="email" required></label>
+          <label>Téléphone<input name="telephone" type="tel" autocomplete="tel"></label>
+          <label class="large">Objet<select name="activite" id="activite"><option value="">Choisir</option><option value="demeure">Crown Demeure</option><option value="stable">Crown Stable</option><option value="capital">Crown Capital</option><option value="asset-management">Crown Asset Management</option><option value="compte">Ouvrir un compte</option></select></label>
+          <label class="large">Message<textarea name="message" rows="4" required></textarea></label>
+          <label class="case large"><input type="checkbox" name="accord" required> J'accepte que Crown utilise ces informations pour me répondre.</label>
+          <p class="large message-formulaire" role="status" aria-live="polite"></p>
+          <div class="large"><button class="bouton bouton-plein" type="submit">Envoyer la demande</button><p class="note">Votre messagerie s'ouvre avec la demande prête à partir. Vous pouvez aussi écrire directement à <a href="mailto:contact@crown.ooo">contact@crown.ooo</a>.</p></div>
+        </form>
+        <dl class="coordonnees">
+          <div><dt>Adresse</dt><dd>56 rue Saint-Jean-du-Désert, 13012 Marseille, France</dd></div>
+          <div><dt>Contact</dt><dd><a href="mailto:contact@crown.ooo">contact@crown.ooo</a></dd></div>
+          <div><dt>Investissements</dt><dd><a href="mailto:invest@crown.ooo">invest@crown.ooo</a></dd></div>
+        </dl>
+      </div>
     </div>
-    <form class="formulaire" id="formulaire-contact" method="post" action="#" novalidate data-courriel="contact@crown.ooo">
-      <label>Prénom<input name="prenom" autocomplete="given-name" required></label>
-      <label>Nom<input name="nom" autocomplete="family-name" required></label>
-      <label>E-mail<input name="email" type="email" autocomplete="email" required></label>
-      <label>Téléphone<input name="telephone" type="tel" autocomplete="tel"></label>
-      <label class="large">Objet<select name="activite" id="activite"><option value="">Choisir</option><option value="demeure">Crown Demeure</option><option value="stable">Crown Stable</option><option value="capital">Crown Capital</option><option value="asset-management">Crown Asset Management</option><option value="compte">Ouvrir un compte</option></select></label>
-      <label class="large">Message<textarea name="message" rows="4" required></textarea></label>
-      <label class="case large"><input type="checkbox" name="accord" required> J'accepte que Crown utilise ces informations pour me répondre.</label>
-      <p class="large message-formulaire" role="status" aria-live="polite"></p>
-      <div class="large"><button class="bouton bouton-plein" type="submit">Envoyer la demande</button><p class="note">Votre messagerie s'ouvre avec la demande prête à partir. Vous pouvez aussi écrire directement à <a href="mailto:contact@crown.ooo">contact@crown.ooo</a>.</p></div>
-    </form>
   </section>
 </main>
 <footer class="pied">
