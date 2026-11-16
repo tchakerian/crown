@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Contact, Crown</title>
+<meta name="description" content="Demander une introduction à Crown.">
+<meta name="theme-color" content="#F20823">
+<link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Marcellus&family=Manrope:wght@200;300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/crown.css?v=6c8e66c75b">
+<script src="assets/crown.js?v=c1e5f3fafa" defer></script>
+</head>
+<body>
+<a class="evitement" href="#contenu">Aller au contenu</a>
+<div class="bandeau">
+  <a href="contact.html?objet=compte">Ouvrir un compte</a>
+  <a class="fort" href="espace-client.html">Espace client</a>
+  <span class="langues"><a class="fort" href="#" aria-current="true">FR</a> / <a href="#" lang="en">EN</a></span>
+</div>
+<header class="entete">
+  <a class="logo" href="index.html" aria-label="Crown, accueil"><svg class="couronne" width="32" height="22.4" viewBox="0 0 40 28" aria-hidden="true" focusable="false"><path d="M20 21.5 L4.2 21.5 L2 7.5 L12.5 14.5 L20 3 L27.5 14.5 L38 7.5 L35.8 21.5 Z" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linejoin="miter"/><circle cx="12" cy="18.2" r="1.3" fill="currentColor"/><circle cx="20" cy="18.2" r="1.3" fill="currentColor"/><circle cx="28" cy="18.2" r="1.3" fill="currentColor"/><path d="M4.6 25.2 L35.4 25.2" fill="none" stroke="currentColor" stroke-width="2.2"/></svg><span class="mot">CR<span class="o">O</span>WN</span></a>
+  <button class="menu-bouton" type="button" aria-expanded="false" aria-controls="menu">Menu <span class="menu-traits" aria-hidden="true"></span></button>
+  <nav id="menu" class="menu" aria-label="Principal">
+    <a href="index.html#activites">Activités</a><a href="a-propos.html">À propos</a><a href="contact.html" aria-current="page">Contact</a>
+    <span class="menu-secondaire"><a href="espace-client.html">Espace client</a><a href="contact.html?objet=compte">Ouvrir un compte</a></span>
+  </nav>
+</header>
+<main id="contenu">
+  <section class="contact">
+    <div class="apparait">
+      <p class="surtitre">Contact</p>
+      <h1>Demander une introduction</h1>
+      <p class="accroche">Dites-nous qui vous êtes et ce qui vous amène. Nous revenons vers vous personnellement.</p>
+      <dl class="coordonnees">
+        <div><dt>Adresse</dt><dd>[ Adresse ]</dd></div>
+        <div><dt>Téléphone</dt><dd>[ Téléphone ]</dd></div>
+        <div><dt>E-mail</dt><dd>[ E-mail ]</dd></div>
+      </dl>
+    </div>
+    <form class="formulaire" id="formulaire-contact" method="post" action="#" novalidate data-a-relier>
+      <label>Prénom<input name="prenom" autocomplete="given-name" required></label>
+      <label>Nom<input name="nom" autocomplete="family-name" required></label>
+      <label>E-mail<input name="email" type="email" autocomplete="email" required></label>
+      <label>Téléphone<input name="telephone" type="tel" autocomplete="tel"></label>
+      <label class="large">Objet<select name="activite" id="activite"><option value="">Choisir</option><option value="demeure">Crown Demeure</option><option value="stable">Crown Stable</option><option value="capital">Crown Capital</option><option value="asset-management">Crown Asset Management</option><option value="compte">Ouvrir un compte</option></select></label>
+      <label class="large">Message<textarea name="message" rows="4" required></textarea></label>
+      <label class="case large"><input type="checkbox" name="accord" required> J'accepte que Crown utilise ces informations pour me répondre.</label>
+      <p class="large message-formulaire" role="status" aria-live="polite"></p>
+      <div class="large"><button class="bouton bouton-plein" type="submit">Envoyer la demande</button></div>
+    </form>
+  </section>
+</main>
+<footer class="pied">
+  <div class="pied-grille">
+    <div><a class="logo" href="index.html" aria-label="Crown, accueil"><svg class="couronne" width="32" height="22.4" viewBox="0 0 40 28" aria-hidden="true" focusable="false"><path d="M20 21.5 L4.2 21.5 L2 7.5 L12.5 14.5 L20 3 L27.5 14.5 L38 7.5 L35.8 21.5 Z" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linejoin="miter"/><circle cx="12" cy="18.2" r="1.3" fill="currentColor"/><circle cx="20" cy="18.2" r="1.3" fill="currentColor"/><circle cx="28" cy="18.2" r="1.3" fill="currentColor"/><path d="M4.6 25.2 L35.4 25.2" fill="none" stroke="currentColor" stroke-width="2.2"/></svg><span class="mot">CR<span class="o">O</span>WN</span></a><p>Crown investit dans ce qui change une vie, dans ce qui a un potentiel unique et significatif.</p></div>
+    <div><h2>Activités</h2><ul><li><a href="activites/demeure.html">Cr<span class="o">o</span>wn Demeure</a></li><li><a href="activites/stable.html">Cr<span class="o">o</span>wn Stable</a></li><li><a href="activites/capital.html">Cr<span class="o">o</span>wn Capital</a></li><li><a href="activites/asset-management.html">Cr<span class="o">o</span>wn Asset Management</a></li></ul></div>
+    <div><h2>La maison</h2><ul><li><a href="a-propos.html">À propos</a></li><li><a href="contact.html">Contact</a></li><li><a href="contact.html">Demander une introduction</a></li></ul></div>
+    <div><h2>Clients</h2><ul><li><a href="espace-client.html">Espace client</a></li><li><a href="contact.html?objet=compte">Ouvrir un compte</a></li></ul></div>
+  </div>
+  <div class="pied-bas">
+    <span>© Crown</span>
+    <span class="pied-liens"><a href="#">Mentions légales</a><a href="#">Confidentialité</a><span class="domaine">crown.<span class="o">ooo</span></span></span>
+  </div>
+</footer>
+</body>
+</html>
