@@ -1,6 +1,9 @@
 # Construit le site Crown (pages statiques) dans le dossier site/.
 # Usage : python3 outils/construire.py
-import os, math
+import os, math, sys
+sys.dont_write_bytecode = True
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+import scenes
 
 ICI = os.path.dirname(os.path.abspath(__file__))
 SITE = os.path.join(os.path.dirname(ICI), 'site')  # pages publiées par Render
@@ -42,6 +45,11 @@ VALEURS = [("Les personnes d'abord", "Derrière une entreprise, il y a toujours 
 
 def points(liste):
     return '<ol class="points">' + ''.join(f'<li><span>0{k + 1}</span><strong>{a}</strong>{b}</li>' for k, (a, b) in enumerate(liste)) + '</ol>'
+
+
+def visuel_activite(fichier, nom):
+    return (f'<figure class="visuel visuel-scene" aria-hidden="true">{scenes.svg(fichier, "scene-cadre", scenes.CADRES[fichier], "xMidYMid slice")}'
+            f'<figcaption>{crown("mot")} {nom.upper()}</figcaption></figure>')
 
 
 def visuel(nom):
@@ -210,48 +218,9 @@ VOILE = [  # (fichier, nom, titre, suite, provisoire)
 ]
 
 
-def scene():
-    """Ciel, mer et voilier ; une lumière par activité (t0 à t3)."""
-    lum = [("#F2B48A", ".42"), ("#9CC3D6", ".30"), ("#E6EDEC", "0"), ("#E9A066", ".40")]
-    grad = ''.join(f'<radialGradient id="v-tl{i}" cx="560" cy="500" r="620" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="{c}" stop-opacity="{o}"/><stop offset="1" stop-color="{c}" stop-opacity="0"/></radialGradient>' for i, (c, o) in enumerate(lum))
-    teintes = ''.join(f'<circle class="teinte t{i}" cx="560" cy="500" r="620" fill="url(#v-tl{i})"/>' for i in range(4))
-    v = lambda y, a: "M0 %d Q60 %d 120 %d %s" % (y, y - a, y, " ".join("T%d %d" % (x, y) for x in range(240, 1700, 120)))
-    return f'''<svg class="voile-scene" viewBox="0 0 1440 1024" preserveAspectRatio="xMaxYMid slice" aria-hidden="true" focusable="false">
-      <defs>
-        <linearGradient id="v-ciel" x1="0" y1="0" x2="0" y2="566" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#0F1418"/><stop offset=".45" stop-color="#25323B"/><stop offset=".85" stop-color="#5D727C"/><stop offset="1" stop-color="#8399A1"/></linearGradient>
-        <radialGradient id="v-lum" cx="560" cy="500" r="520" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#E6EDEC" stop-opacity=".55"/><stop offset=".35" stop-color="#B4C4C8" stop-opacity=".22"/><stop offset="1" stop-color="#B4C4C8" stop-opacity="0"/></radialGradient>
-        {grad}
-        <linearGradient id="v-mer" x1="0" y1="566" x2="0" y2="1024" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#557079"/><stop offset=".12" stop-color="#34494F"/><stop offset=".45" stop-color="#1A262C"/><stop offset="1" stop-color="#0A0F12"/></linearGradient>
-        <linearGradient id="v-reflet" x1="0" y1="566" x2="0" y2="820" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#D6E2E2" stop-opacity=".45"/><stop offset="1" stop-color="#D6E2E2" stop-opacity="0"/></linearGradient>
-        <linearGradient id="v-gv" x1="1060" y1="0" x2="1320" y2="0" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#F4F5F2"/><stop offset=".55" stop-color="#D5DCDD"/><stop offset="1" stop-color="#8E9DA3"/></linearGradient>
-        <linearGradient id="v-foc" x1="1040" y1="0" x2="1180" y2="0" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#A9B6BA"/><stop offset=".6" stop-color="#E3E8E7"/><stop offset="1" stop-color="#C3CDD0"/></linearGradient>
-        <linearGradient id="v-voileref" x1="0" y1="700" x2="0" y2="900" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#DCE3E2" stop-opacity=".3"/><stop offset="1" stop-color="#DCE3E2" stop-opacity="0"/></linearGradient>
-      </defs>
-      <rect x="0" y="0" width="1440" height="570" fill="url(#v-ciel)"/>
-      <circle class="brume" cx="560" cy="500" r="520" fill="url(#v-lum)"/>
-      {teintes}
-      <g class="nuages">
-        <ellipse cx="380" cy="150" rx="520" ry="90" fill="#0E1317" opacity=".55"/><ellipse cx="1100" cy="110" rx="560" ry="110" fill="#0D1215" opacity=".6"/>
-        <ellipse cx="760" cy="300" rx="420" ry="40" fill="#1F2B32" opacity=".55"/><ellipse cx="260" cy="380" rx="360" ry="22" fill="#2A3940" opacity=".5"/>
-        <ellipse cx="1260" cy="420" rx="380" ry="24" fill="#33444C" opacity=".45"/><ellipse cx="640" cy="452" rx="300" ry="10" fill="#C9D6D7" opacity=".18"/>
-      </g>
-      <path fill="#3D5058" opacity=".8" d="M0 566 C80 560 160 552 240 556 C300 559 340 562 400 566 Z"/>
-      <rect x="0" y="566" width="1440" height="458" fill="url(#v-mer)"/>
-      <path fill="url(#v-reflet)" d="M300 566 H820 L980 820 H140 Z"/>
-      <g class="vagues2" stroke="#9FB3B8" fill="none" stroke-linecap="round" opacity=".35"><path stroke-width="1" d="{v(590, 4)}"/><path stroke-width="1" d="{v(614, 5)}"/><path stroke-width="1.2" d="{v(646, 6)}"/></g>
-      <g class="vagues1" stroke="#7F969C" fill="none" stroke-linecap="round" opacity=".28"><path stroke-width="1.4" d="{v(700, 8)}"/><path stroke-width="1.6" d="{v(772, 10)}"/><path stroke-width="2" d="{v(870, 12)}"/><path stroke-width="2.4" d="{v(980, 14)}"/></g>
-      <path fill="url(#v-voileref)" d="M1080 704 L1300 704 L1250 900 L1110 900 Z"/>
-      <g class="bateau"><g transform="rotate(7 1190 690)">
-        <path d="M1190 150 V690" stroke="#1A2024" stroke-width="3"/>
-        <path fill="url(#v-gv)" d="M1196 160 C1250 300 1300 470 1322 664 L1198 668 Z"/>
-        <path fill="#FFFFFF" opacity=".25" d="M1196 160 C1214 300 1222 470 1226 666 L1198 668 Z"/>
-        <path fill="url(#v-foc)" d="M1184 196 C1140 340 1090 500 1052 654 L1182 666 Z"/>
-        <path d="M1196 330 L1262 330 M1196 470 L1296 470" stroke="#9AA8AD" stroke-width="1" opacity=".6"/>
-        <path fill="#0B1013" d="M1028 668 C1100 686 1290 688 1360 664 L1344 690 C1270 712 1100 712 1046 690 Z"/>
-        <path fill="#C9D3D5" opacity=".55" d="M1036 676 C1110 690 1280 692 1352 672 L1350 676 C1280 698 1110 696 1038 680 Z"/>
-      </g></g>
-      <g stroke="#E4ECEC" fill="none" stroke-linecap="round" opacity=".55"><path stroke-width="2" d="M1040 704 C980 708 900 712 820 716"/><path stroke-width="1.2" d="M1050 712 C960 722 880 730 760 736"/><path stroke-width="1" opacity=".6" d="M1360 696 C1390 700 1420 702 1440 702"/></g>
-    </svg>'''
+def scene_accueil():
+    """Une scène par activité, superposées ; celle de l'activité affichée apparaît en fondu."""
+    return '\n    '.join(scenes.svg(f, f"voile-scene scene s{i}") for i, (f, *_r) in enumerate(VOILE))
 
 
 def voile():
@@ -269,7 +238,7 @@ def voile():
     onglets = ''.join(f'<a class="onglet{" actif" if i == 0 else ""}" href="activites/{f}.html" data-diapo="{i}"><span class="onglet-filet"><span class="onglet-prog"></span></span><span class="onglet-nom">{nom}</span></a>' for i, (f, nom, *_r) in enumerate(VOILE))
     return f'''  <section class="voile" data-actif="0" aria-roledescription="carrousel" aria-label="Les activités de Crown">
     <h1 class="visuellement-cache">Crown, maison d'investissement : Demeure, Stable, Capital, Asset Management</h1>
-    {scene()}
+    {scene_accueil()}
     <div class="voile-voile" aria-hidden="true"></div>
     <div class="voile-contenu">
       <div class="diapos">{diapos}
@@ -307,7 +276,7 @@ for i, e in enumerate(ENT):
       <p class="activite-phrase">{e[2]}</p>
       <a class="bouton" href="../contact.html?activite={e[0]}">Demander une introduction</a>
     </div>
-    {visuel(e[1])}
+    {visuel_activite(e[0], e[1])}
   </section>
   <section class="presentation revele">
     <h2>Crown {e[1]}</h2>

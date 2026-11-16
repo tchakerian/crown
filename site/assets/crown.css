@@ -222,7 +222,10 @@ p { margin: 0; }
 .visuel { position: relative; margin: 0; aspect-ratio: 4 / 5; overflow: hidden; background: linear-gradient(180deg, #0F1418 0%, #25323B 38%, #5D727C 58%, #8399A1 61%, #34494F 61.4%, #1A262C 75%, #0A0F12 100%); }
 .visuel-horizon { position: absolute; left: 0; right: 0; top: 61%; height: 1px; background: rgba(255,255,255,.25); }
 .visuel .couronne { position: absolute; left: 50%; top: 38%; transform: translate(-50%, -50%); width: clamp(96px, 26%, 150px); height: auto; color: var(--blanc); }
-.visuel figcaption { position: absolute; left: 28px; bottom: 24px; font-family: var(--marc); font-size: 14px; letter-spacing: .16em; color: var(--blanc); }
+.visuel-scene { background: #0A0F12; }
+.visuel-scene::after { content: ""; position: absolute; inset: 0; background: linear-gradient(0deg, rgba(8,12,14,.7) 0%, rgba(8,12,14,0) 30%); pointer-events: none; }
+.scene-cadre { position: absolute; inset: 0; width: 100%; height: 100%; }
+.visuel figcaption { z-index: 1; position: absolute; left: 28px; bottom: 24px; font-family: var(--marc); font-size: 14px; letter-spacing: .16em; color: var(--blanc); }
 .points strong { display: block; margin-bottom: 4px; font-weight: 600; color: var(--encre); }
 .maison .suite { margin-top: 28px; font-size: 17px; line-height: 1.7; color: var(--gris-texte); }
 .note { margin-top: 16px; font-size: 13px; color: var(--gris); }
@@ -367,12 +370,20 @@ p { margin: 0; }
 .vagues2 { animation: vagues 40s linear infinite; }
 .nuages { animation: nuages 90s ease-in-out infinite alternate; }
 .brume { animation: brume 16s ease-in-out infinite alternate; }
-.teinte { opacity: 0; transition: opacity 2.4s ease; }
-.voile[data-actif="0"] .t0, .voile[data-actif="1"] .t1, .voile[data-actif="2"] .t2, .voile[data-actif="3"] .t3 { opacity: 1; }
+.voile-scene.scene { opacity: 0; transition: opacity 1.8s ease; }
+.voile-scene.scene * { animation-play-state: paused; }
+.voile[data-actif="0"] .s0, .voile[data-actif="1"] .s1, .voile[data-actif="2"] .s2, .voile[data-actif="3"] .s3 { opacity: 1; }
+.voile[data-actif="0"] .s0 *, .voile[data-actif="1"] .s1 *, .voile[data-actif="2"] .s2 *, .voile[data-actif="3"] .s3 * { animation-play-state: running; }
+.lueur { animation: lueur 7s ease-in-out infinite alternate; }
+.derive { animation: derive 34s ease-in-out infinite alternate; }
+.derive2 { animation: derive 48s ease-in-out infinite alternate-reverse; }
+.scintille { animation: brume 9s ease-in-out infinite alternate; }
 @keyframes tangue { 0% { transform: rotate(-1.2deg) translateY(-3px); } 100% { transform: rotate(1.4deg) translateY(4px); } }
 @keyframes vagues { from { transform: translateX(0); } to { transform: translateX(-240px); } }
 @keyframes nuages { from { transform: translateX(0); } to { transform: translateX(-120px); } }
 @keyframes brume { from { opacity: .55; } to { opacity: .95; } }
+@keyframes lueur { from { opacity: .55; } to { opacity: .9; } }
+@keyframes derive { from { transform: translateX(-60px); } to { transform: translateX(60px); } }
 
 .voile-contenu { position: absolute; left: var(--marge); right: calc(var(--marge) + 56px); bottom: 0; display: flex; flex-direction: column; }
 .diapos { position: relative; height: clamp(300px, 44svh, 440px); }
@@ -449,7 +460,8 @@ p { margin: 0; }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .bateau, .vagues1, .vagues2, .nuages, .brume { animation: none !important; }
+  .bateau, .vagues1, .vagues2, .nuages, .brume, .lueur, .derive, .derive2, .scintille { animation: none !important; }
+  .voile-scene.scene { transition: none; }
   .onglet.actif .onglet-prog { animation: none !important; transform: scaleX(1); }
   .accueil .entete.colle { animation: none; }
 }
