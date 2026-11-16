@@ -1,5 +1,5 @@
 # Site Crown sur Render : site statique, sans étape de construction.
-# Site de test : masqué aux moteurs de recherche (X-Robots-Tag et robots.txt).
+# Site officiel de Crown, servi sur crown.ooo.
 services:
   - type: web
     name: crown
@@ -29,9 +29,6 @@ services:
       - path: /*
         name: Cross-Origin-Opener-Policy
         value: same-origin
-      - path: /*
-        name: X-Robots-Tag
-        value: noindex, nofollow
       - path: /*
         name: Cache-Control
         value: public, max-age=0, must-revalidate
