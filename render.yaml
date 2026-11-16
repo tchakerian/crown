@@ -46,5 +46,11 @@ services:
         source: /espace-client
         destination: /espace-client.html
       - type: rewrite
+        source: /mentions-legales
+        destination: /mentions-legales.html
+      - type: rewrite
+        source: /confidentialite
+        destination: /confidentialite.html
+      - type: rewrite
         source: /activites/:nom
         destination: /activites/:nom.html

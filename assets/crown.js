@@ -118,7 +118,33 @@
         premier.focus();
         return;
       }
-      if (message) message.textContent = "Ce formulaire n'est pas encore relié : votre demande n'a pas été envoyée.";
+      if (message) message.textContent = f.getAttribute('data-message') || "Ce formulaire n'est pas encore relié : votre demande n'a pas été envoyée.";
     });
   });
+
+  // Formulaire de contact : prépare un e-mail dans la messagerie du visiteur (le site ne garde rien)
+  var contact = document.querySelector('form[data-courriel]');
+  if (contact) {
+    contact.addEventListener('submit', function (e) {
+      e.preventDefault();
+      var message = contact.querySelector('.message-formulaire');
+      var premier = null;
+      contact.querySelectorAll('[required]').forEach(function (c) {
+        var ok = c.type === 'checkbox' ? c.checked : c.value.trim() !== '' && (!c.validity || c.validity.valid);
+        c.setAttribute('aria-invalid', ok ? 'false' : 'true');
+        if (!ok && !premier) premier = c;
+      });
+      if (premier) {
+        if (message) message.textContent = 'Merci de compléter les champs indiqués.';
+        premier.focus();
+        return;
+      }
+      var v = function (n) { var c = contact.elements[n]; return c ? c.value.trim() : ''; };
+      var objet = contact.elements.activite;
+      var libelle = objet && objet.value ? objet.options[objet.selectedIndex].text : 'Demande';
+      var corps = [v('message'), '', '--', v('prenom') + ' ' + v('nom'), v('email'), v('telephone')].filter(function (l, i) { return i < 4 || l; }).join('\n');
+      window.location.href = 'mailto:' + contact.getAttribute('data-courriel') + '?subject=' + encodeURIComponent('Demande d\'introduction : ' + libelle) + '&body=' + encodeURIComponent(corps);
+      if (message) message.textContent = "Votre messagerie s'ouvre avec la demande prête à partir. Si rien ne s'ouvre, écrivez à " + contact.getAttribute('data-courriel') + '.';
+    });
+  }
 })();
