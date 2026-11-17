@@ -17,6 +17,16 @@ ENT = [  # (fichier, nom, phrase, provisoire)
     ("asset-management", "Asset Management", "Tirer le meilleur de nos fonds, à tout moment.", True),
 ]
 NUM = ["I", "II", "III", "IV"]
+
+# Fichiers des scènes (écrits d'abord : les pages portent leur empreinte)
+VER_SCENES = {}
+os.makedirs(os.path.join(SITE, "assets", "scenes"), exist_ok=True)
+for _cle, _cadre, _calque, _nom in ([(c, None, None, c) for c in ("demeure", "stable", "capital", "asset-management")]
+                                    + [(c, scenes.CADRES[c], None, f"{c}-cadre") for c in scenes.CADRES]
+                                    + [("maison", scenes.CADRES["maison"], "faisceau", "maison-faisceau-cadre")]):
+    _txt = scenes.document(_cle, _cadre, _calque)
+    open(os.path.join(SITE, "assets", "scenes", f"{_nom}.svg"), "w", encoding="utf-8").write(_txt)
+    VER_SCENES[_nom] = hashlib.sha256(_txt.encode()).hexdigest()[:10]
 ADRESSE = "56 rue Saint-Jean-du-Désert, 13012 Marseille, France"
 COURRIEL = "contact@crown.ooo"
 COURRIEL_INVEST = "invest@crown.ooo"
@@ -47,10 +57,13 @@ def points(liste):
     return '<ol class="points">' + ''.join(f'<li><span>0{k + 1}</span><strong>{a}</strong>{b}</li>' for k, (a, b) in enumerate(liste)) + '</ol>'
 
 
-def ecran_visuel(cle, legende=""):
+def ecran_visuel(cle, racine, legende=""):
     """Image pleine hauteur d'un écran partagé, collée au bord de la fenêtre."""
     leg = f'<figcaption>{legende}</figcaption>' if legende else ''
-    return (f'<figure class="ecran-visuel visuel-scene" aria-hidden="true">{scenes.svg(cle, "scene-cadre", scenes.CADRES[cle], "xMidYMid slice")}{leg}</figure>')
+    _x, _y, w, h = scenes.CADRES[cle].split()
+    img = lambda nom, cls: f'<img class="{cls}" src="{racine}assets/scenes/{nom}.svg?v={VER_SCENES[nom]}" width="{w}" height="{h}" alt="" decoding="async">'
+    calque = img(f"{cle}-faisceau-cadre", "scene-cadre faisceau-calque") if cle == "maison" else ''
+    return f'<figure class="ecran-visuel visuel-scene" aria-hidden="true">{img(f"{cle}-cadre", "scene-cadre")}{calque}{leg}</figure>'
 
 
 def visuel(nom):
@@ -220,8 +233,10 @@ VOILE = [  # (fichier, nom, titre, suite, provisoire)
 
 
 def scene_accueil():
-    """Une scène par activité, superposées ; celle de l'activité affichée apparaît en fondu."""
-    return '\n    '.join(scenes.svg(f, f"voile-scene scene s{i}") for i, (f, *_r) in enumerate(VOILE))
+    """Une image par activité, superposées ; celle de l'activité affichée apparaît en fondu et s'approche lentement."""
+    prio = ' fetchpriority="high"'
+    return '\n    '.join(f'<img class="voile-scene scene s{i}" src="assets/scenes/{f}.svg?v={VER_SCENES[f]}" width="1440" height="1024" alt="" decoding="async"{prio if i == 0 else ""}>'
+                           for i, (f, *_r) in enumerate(VOILE))
 
 
 def voile():
@@ -279,7 +294,7 @@ for i, e in enumerate(ENT):
         <a class="bouton" href="../contact.html?activite={e[0]}">Demander une introduction</a>
       </div>
     </div>
-    {ecran_visuel(e[0], f'<span class="legende-num">{NUM[i]}</span>{crown("mot")} {e[1].upper()}')}
+    {ecran_visuel(e[0], '../', f'<span class="legende-num">{NUM[i]}</span>{crown("mot")} {e[1].upper()}')}
   </section>
   <section class="presentation revele">
     <h2>Crown {e[1]}</h2>
@@ -302,7 +317,7 @@ apropos = f'''  <section class="ecran">
         <p class="suite">Les fonds de Crown partagent une même ambition : reproduire, chacun dans son domaine, des modèles de prospérité. Quatre activités, chacune experte de son métier, une seule maison.</p>
       </div>
     </div>
-    {ecran_visuel("maison", crown("mot"))}
+    {ecran_visuel("maison", "", crown("mot"))}
   </section>
   <section class="presentation revele">
     <h2>Nos valeurs</h2>
@@ -318,7 +333,7 @@ ecrire("a-propos.html", page("", "À propos de Crown", ACCROCHE, "À propos", ap
 # ---------- Contact ----------
 opts = ''.join(f'<option value="{e[0]}">Crown {e[1]}</option>' for e in ENT)
 contact = f'''  <section class="ecran ecran-inverse">
-    {ecran_visuel("contact")}
+    {ecran_visuel("contact", "")}
     <div class="ecran-texte apparait">
       <div class="ecran-corps">
         <p class="surtitre">Contact</p>

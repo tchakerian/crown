@@ -443,3 +443,25 @@ def svg(activite, cls, cadre="0 0 1440 1024", ajuste="xMaxYMid slice"):
     contenu = SCENES[activite](PREFIXES[activite])
     return (f'<svg class="{cls}" viewBox="{cadre}" preserveAspectRatio="{ajuste}" aria-hidden="true" focusable="false">\n      '
             f'{contenu}\n    </svg>')
+
+
+# ---------- Fichiers image ----------
+# Chaque scène est écrite une fois en fichier .svg et affichée en <img> : le navigateur la calcule une seule fois,
+# puis les fondus, le lent zoom et le faisceau du phare (calque à part) se font sans la redessiner.
+TOILES = {"contact": "0 0 1200 900"}
+
+
+def document(cle, cadre=None, calque=None):
+    """Scène complète (ou cadrée), sans le faisceau du phare ; calque="faisceau" ne garde que lui."""
+    cadre = cadre or TOILES.get(cle, "0 0 1440 1024")
+    _x, _y, w, h = (float(v) for v in cadre.split())
+    contenu = SCENES[cle](PREFIXES[cle])
+    lignes = contenu.split("\n")
+    faisceau = [l for l in lignes if l.strip().startswith('<g class="faisceau')]
+    if calque == "faisceau":
+        defs = contenu[contenu.index("<defs>"):contenu.index("</defs>") + 7]
+        contenu = defs + "\n" + "\n".join(faisceau)
+    else:
+        contenu = "\n".join(l for l in lignes if l not in faisceau)
+    return (f'<svg xmlns="http://www.w3.org/2000/svg" width="{w:g}" height="{h:g}" viewBox="{cadre}" preserveAspectRatio="xMidYMid slice">\n'
+            f'{contenu}\n</svg>\n')
