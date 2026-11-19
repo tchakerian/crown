@@ -7,6 +7,9 @@
 Site de la maison Crown, https://crown.ooo. Dépôt `tchakerian/crown` (public). Rien de Sesterce ici.
 Les règles sont dans `CLAUDE.md` : elles priment sur ce fichier.
 
+**Quatre sites distincts, jamais mélangés** : Crown (ce dépôt), Monimo, Orsi, Sesterce. Ici, on ne
+touche qu'à Crown : rien d'un autre site (charte, code, textes, comptes) n'entre dans ce dépôt.
+
 ## État au 19/11
 
 - **Pages** (générées par `outils/construire.py` dans `site/`) : accueil « Voile », les quatre
@@ -37,3 +40,4 @@ Les règles sont dans `CLAUDE.md` : elles priment sur ce fichier.
 ## Journal
 
 - 19/11 18:44 · compte sesterce (cloud) · reprise, état des lieux, création de `REPRISE.md` et `RELAIS.md`.
+- 19/11 · rappel d'Anthony : quatre sites distincts (Crown, Monimo, Orsi, Sesterce).

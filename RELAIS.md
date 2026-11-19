@@ -32,7 +32,8 @@ Le cadenas ne part sur `main` qu'avec l'accord d'Anthony, comme tout le reste.
 
 ```
 Je reprends ici. Tu es la conversation CROWN : le site de la maison Crown (crown.ooo),
-dépôt tchakerian/crown (public), séparé de Sesterce. Passe par le skill ceo d'abord ;
+dépôt tchakerian/crown (public). Quatre sites distincts : Crown, Monimo,
+Orsi, Sesterce ; ici, Crown seulement. Passe par le skill ceo d'abord ;
 pour le format, les règles du dépôt priment (court, en français, le résultat d'abord).
 
 Suis l'ENTRÉE de RELAIS.md : lire CLAUDE.md et REPRISE.md, poser le cadenas, lancer
